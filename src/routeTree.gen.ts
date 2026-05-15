@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MeasureRouteImport } from './routes/measure'
 import { Route as FramesRouteImport } from './routes/frames'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const MeasureRoute = MeasureRouteImport.update({
+  id: '/measure',
+  path: '/measure',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FramesRoute = FramesRouteImport.update({
   id: '/frames',
   path: '/frames',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/frames': typeof FramesRoute
+  '/measure': typeof MeasureRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/frames': typeof FramesRoute
+  '/measure': typeof MeasureRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/frames': typeof FramesRoute
+  '/measure': typeof MeasureRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/frames'
+  fullPaths: '/' | '/about' | '/frames' | '/measure'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/frames'
-  id: '__root__' | '/' | '/about' | '/frames'
+  to: '/' | '/about' | '/frames' | '/measure'
+  id: '__root__' | '/' | '/about' | '/frames' | '/measure'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   FramesRoute: typeof FramesRoute
+  MeasureRoute: typeof MeasureRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/measure': {
+      id: '/measure'
+      path: '/measure'
+      fullPath: '/measure'
+      preLoaderRoute: typeof MeasureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/frames': {
       id: '/frames'
       path: '/frames'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   FramesRoute: FramesRoute,
+  MeasureRoute: MeasureRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

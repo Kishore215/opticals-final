@@ -24,7 +24,7 @@ export const Route = createFileRoute("/frames")({
 const SHAPES: Frame["shape"][] = ["Round", "Square", "Rectangle", "Cat-Eye", "Aviator"];
 
 function FramesPage() {
-  const { size: sizeFromUrl } = useSearch({ from: "/frames" });
+  const sizeFromUrl = useSearch({ from: "/frames" }).size as Frame["size"] | undefined;
   const [size, setSize] = useState<Frame["size"] | "All">(sizeFromUrl ?? "All");
   const [shape, setShape] = useState<Frame["shape"] | "All">("All");
   const [power, setPower] = useState<string>(POWER_OPTIONS[0]);
