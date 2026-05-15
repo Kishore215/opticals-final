@@ -10,7 +10,11 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Gowri Optical — Eyewear with smart fit" },
-      { name: "description", content: "Family-owned eyewear since 1986. Try frames on with your camera and find your exact fit in seconds." },
+      {
+        name: "description",
+        content:
+          "Family-owned eyewear since 1986. Try frames on with your camera and find your exact fit in seconds.",
+      },
     ],
   }),
   component: Home,
@@ -30,24 +34,44 @@ function Home() {
               AI face measurement, in-browser
             </span>
             <h1 className="mt-6 font-display text-5xl leading-[1.05] md:text-7xl">
-              Eyewear that<br />
-              <span className="bg-gradient-hero bg-clip-text text-transparent">truly fits</span> you.
+              Eyewear that
+              <br />
+              <span className="bg-gradient-hero bg-clip-text text-transparent">
+                truly fits
+              </span>{" "}
+              you.
             </h1>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">
-              Skip the guesswork. Let our camera measure your face and recommend the perfect frame size — in under 10 seconds.
+              Skip the guesswork. Let our camera measure your face and recommend the perfect frame
+              size — in under 10 seconds.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/measure" className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant transition hover:opacity-90">
+              <Link
+                to="/measure"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-elegant transition hover:opacity-90"
+              >
                 <Camera className="h-4 w-4" /> Measure my face
               </Link>
-              <Link to="/frames" className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold transition hover:border-teal hover:text-teal">
+              <Link
+                to="/frames"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold transition hover:border-teal hover:text-teal"
+              >
                 Browse frames <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
             <div className="mt-10 flex gap-8 text-sm">
-              <div><p className="font-display text-2xl text-teal">38+</p><p className="text-muted-foreground">years in Chennai</p></div>
-              <div><p className="font-display text-2xl text-teal">200+</p><p className="text-muted-foreground">frame styles</p></div>
-              <div><p className="font-display text-2xl text-teal">100%</p><p className="text-muted-foreground">in-house lab</p></div>
+              <div>
+                <p className="font-display text-2xl text-teal">38+</p>
+                <p className="text-muted-foreground">years in Chennai</p>
+              </div>
+              <div>
+                <p className="font-display text-2xl text-teal">200+</p>
+                <p className="text-muted-foreground">frame styles</p>
+              </div>
+              <div>
+                <p className="font-display text-2xl text-teal">100%</p>
+                <p className="text-muted-foreground">in-house lab</p>
+              </div>
             </div>
           </div>
           <div className="relative">
@@ -75,13 +99,30 @@ function Home() {
           <p className="mt-2 text-muted-foreground">Three steps from your screen to your face.</p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
-              { icon: Camera, title: "Measure", desc: "Allow camera access. We use FaceMesh to detect 478 facial landmarks and calculate your face width and pupillary distance." },
-              { icon: Glasses, title: "Match", desc: "We recommend frames that match your size — Small, Medium, or Large — so they sit perfectly on your nose and ears." },
-              { icon: ShieldCheck, title: "Order", desc: "Pick your power: zero-power blue cut, single vision, bifocal, or progressive. Lab-fitted in 48 hours." },
+              {
+                icon: Camera,
+                title: "Measure",
+                desc: "Allow camera access. We use FaceMesh to detect 478 facial landmarks and calculate your face width and pupillary distance.",
+              },
+              {
+                icon: Glasses,
+                title: "Match",
+                desc: "We recommend frames that match your size — Small, Medium, or Large — so they sit perfectly on your nose and ears.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Order",
+                desc: "Pick your power: zero-power blue cut, single vision, bifocal, or progressive. Lab-fitted in 48 hours.",
+              },
             ].map((s, i) => (
-              <div key={s.title} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
+              <div
+                key={s.title}
+                className="rounded-2xl border border-border bg-card p-6 shadow-soft"
+              >
                 <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-full bg-gradient-hero text-primary-foreground"><s.icon className="h-5 w-5" /></span>
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-gradient-hero text-primary-foreground">
+                    <s.icon className="h-5 w-5" />
+                  </span>
                   <span className="font-display text-sm text-muted-foreground">Step 0{i + 1}</span>
                 </div>
                 <h3 className="mt-4 font-display text-2xl">{s.title}</h3>
@@ -99,10 +140,17 @@ function Home() {
             <h2 className="font-display text-4xl">New this season</h2>
             <p className="mt-2 text-muted-foreground">Frames hand-picked by our opticians.</p>
           </div>
-          <Link to="/frames" className="hidden text-sm font-semibold text-teal hover:underline md:inline">View all frames →</Link>
+          <Link
+            to="/frames"
+            className="hidden text-sm font-semibold text-teal hover:underline md:inline"
+          >
+            View all frames →
+          </Link>
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {FRAMES.slice(0, 6).map((f) => <FrameCard key={f.id} frame={f} />)}
+          {FRAMES.slice(0, 6).map((f) => (
+            <FrameCard key={f.id} frame={f} />
+          ))}
         </div>
       </section>
 

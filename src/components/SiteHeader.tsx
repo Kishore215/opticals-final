@@ -14,10 +14,35 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
-          <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "text-teal" }} className="text-muted-foreground transition hover:text-foreground">Home</Link>
-          <Link to="/frames" activeProps={{ className: "text-teal" }} className="text-muted-foreground transition hover:text-foreground">Frames</Link>
-          <Link to="/measure" activeProps={{ className: "text-teal" }} className="text-muted-foreground transition hover:text-foreground">Measure</Link>
-          <Link to="/about" activeProps={{ className: "text-teal" }} className="text-muted-foreground transition hover:text-foreground">About</Link>
+          <Link
+            to="/"
+            activeOptions={{ exact: true }}
+            activeProps={{ className: "text-teal" }}
+            className="text-muted-foreground transition hover:text-foreground"
+          >
+            Home
+          </Link>
+          <Link
+            to="/frames"
+            activeProps={{ className: "text-teal" }}
+            className="text-muted-foreground transition hover:text-foreground"
+          >
+            Frames
+          </Link>
+          <Link
+            to="/measure"
+            activeProps={{ className: "text-teal" }}
+            className="text-muted-foreground transition hover:text-foreground"
+          >
+            Measure
+          </Link>
+          <Link
+            to="/about"
+            activeProps={{ className: "text-teal" }}
+            className="text-muted-foreground transition hover:text-foreground"
+          >
+            About
+          </Link>
         </nav>
         <Link
           to="/measure"

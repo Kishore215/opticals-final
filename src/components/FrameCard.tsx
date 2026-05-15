@@ -15,12 +15,16 @@ export function FrameCard({ frame, recommended }: { frame: Frame; recommended?: 
         <div>
           <p className="text-xs uppercase tracking-wider text-muted-foreground">{frame.brand}</p>
           <h3 className="font-display text-xl">{frame.name}</h3>
-          <p className="mt-0.5 text-xs text-muted-foreground">{frame.shape} · {frame.color}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            {frame.shape} · {frame.color}
+          </p>
         </div>
         <p className="font-semibold">₹{frame.price.toLocaleString("en-IN")}</p>
       </div>
       <div className="mt-3 flex items-center justify-between text-xs">
-        <span className="rounded-full bg-secondary px-2.5 py-1 font-medium">Size {frame.size} · {frame.width}mm</span>
+        <span className="rounded-full bg-secondary px-2.5 py-1 font-medium">
+          Size {frame.size} · {frame.width}mm
+        </span>
         <button className="font-semibold text-teal hover:underline">Try on →</button>
       </div>
     </article>

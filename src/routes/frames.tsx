@@ -15,7 +15,10 @@ export const Route = createFileRoute("/frames")({
   head: () => ({
     meta: [
       { title: "Frames — Gowri Optical" },
-      { name: "description", content: "Browse premium eyewear frames by size, shape, and prescription power." },
+      {
+        name: "description",
+        content: "Browse premium eyewear frames by size, shape, and prescription power.",
+      },
     ],
   }),
   component: FramesPage,
@@ -30,8 +33,11 @@ function FramesPage() {
   const [power, setPower] = useState<string>(POWER_OPTIONS[0]);
 
   const filtered = useMemo(
-    () => FRAMES.filter(f => (size === "All" || f.size === size) && (shape === "All" || f.shape === shape)),
-    [size, shape]
+    () =>
+      FRAMES.filter(
+        (f) => (size === "All" || f.size === size) && (shape === "All" || f.shape === shape),
+      ),
+    [size, shape],
   );
 
   return (
@@ -41,11 +47,13 @@ function FramesPage() {
         <p className="text-sm font-medium text-teal">Catalog</p>
         <h1 className="mt-2 font-display text-5xl">Find your frame</h1>
         <p className="mt-3 max-w-xl text-muted-foreground">
-          Filter by size and shape. Add your prescription power at checkout — every frame is lens-ready.
+          Filter by size and shape. Add your prescription power at checkout — every frame is
+          lens-ready.
         </p>
         {sizeFromUrl && (
           <p className="mt-4 inline-block rounded-full bg-teal/10 px-3 py-1 text-xs font-medium text-teal">
-            Showing your recommended size · {SIZE_RANGES[sizeFromUrl].label} ({SIZE_RANGES[sizeFromUrl].range})
+            Showing your recommended size · {SIZE_RANGES[sizeFromUrl].label} (
+            {SIZE_RANGES[sizeFromUrl].range})
           </p>
         )}
       </section>
@@ -53,13 +61,17 @@ function FramesPage() {
       <section className="mx-auto mt-10 max-w-7xl px-6">
         <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-border bg-card p-5 shadow-soft">
           <FilterGroup label="Size">
-            {(["All", "S", "M", "L"] as const).map(s => (
-              <Chip key={s} active={size === s} onClick={() => setSize(s)}>{s}</Chip>
+            {(["All", "S", "M", "L"] as const).map((s) => (
+              <Chip key={s} active={size === s} onClick={() => setSize(s)}>
+                {s}
+              </Chip>
             ))}
           </FilterGroup>
           <FilterGroup label="Shape">
-            {(["All", ...SHAPES] as const).map(s => (
-              <Chip key={s} active={shape === s} onClick={() => setShape(s)}>{s}</Chip>
+            {(["All", ...SHAPES] as const).map((s) => (
+              <Chip key={s} active={shape === s} onClick={() => setShape(s)}>
+                {s}
+              </Chip>
             ))}
           </FilterGroup>
           <FilterGroup label="Power">
@@ -68,7 +80,9 @@ function FramesPage() {
               onChange={(e) => setPower(e.target.value)}
               className="rounded-full border border-border bg-background px-4 py-1.5 text-sm font-medium focus:border-teal focus:outline-none"
             >
-              {POWER_OPTIONS.map(p => <option key={p}>{p}</option>)}
+              {POWER_OPTIONS.map((p) => (
+                <option key={p}>{p}</option>
+              ))}
             </select>
           </FilterGroup>
         </div>
@@ -79,7 +93,7 @@ function FramesPage() {
           <p className="py-20 text-center text-muted-foreground">No frames match those filters.</p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map(f => (
+            {filtered.map((f) => (
               <FrameCard key={f.id} frame={f} recommended={sizeFromUrl === f.size} />
             ))}
           </div>
@@ -94,18 +108,30 @@ function FramesPage() {
 function FilterGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </span>
       <div className="flex flex-wrap gap-1.5">{children}</div>
     </div>
   );
 }
 
-function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+function Chip({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
   return (
     <button
       onClick={onClick}
       className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${
-        active ? "bg-primary text-primary-foreground shadow-soft" : "bg-secondary text-foreground hover:bg-secondary/70"
+        active
+          ? "bg-primary text-primary-foreground shadow-soft"
+          : "bg-secondary text-foreground hover:bg-secondary/70"
       }`}
     >
       {children}

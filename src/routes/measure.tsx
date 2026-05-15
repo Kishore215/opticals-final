@@ -9,7 +9,11 @@ export const Route = createFileRoute("/measure")({
   head: () => ({
     meta: [
       { title: "Camera Face Measurement — Gowri Optical" },
-      { name: "description", content: "Use your webcam to measure your face width and pupillary distance with MediaPipe FaceMesh." },
+      {
+        name: "description",
+        content:
+          "Use your webcam to measure your face width and pupillary distance with MediaPipe FaceMesh.",
+      },
     ],
   }),
   component: MeasurePage,
@@ -32,7 +36,7 @@ function MeasurePage() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       const stream = videoRef.current?.srcObject as MediaStream | null;
-      stream?.getTracks().forEach(t => t.stop());
+      stream?.getTracks().forEach((t) => t.stop());
     };
   }, []);
 
@@ -42,7 +46,7 @@ function MeasurePage() {
       setError("");
       const vision = await import("@mediapipe/tasks-vision");
       const fileset = await vision.FilesetResolver.forVisionTasks(
-        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm"
+        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.35/wasm",
       );
       const landmarker = await vision.FaceLandmarker.createFromOptions(fileset, {
         baseOptions: {
@@ -77,7 +81,10 @@ function MeasurePage() {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     const landmarker = landmarkerRef.current as {
-      detectForVideo: (v: HTMLVideoElement, ts: number) => { faceLandmarks: Array<Array<{ x: number; y: number; z: number }>> };
+      detectForVideo: (
+        v: HTMLVideoElement,
+        ts: number,
+      ) => { faceLandmarks: Array<Array<{ x: number; y: number; z: number }>> };
     } | null;
     if (!video || !canvas || !landmarker || video.readyState < 2) {
       rafRef.current = requestAnimationFrame(loop);
@@ -92,11 +99,14 @@ function MeasurePage() {
     if (res.faceLandmarks && res.faceLandmarks[0]) {
       const lm = res.faceLandmarks[0];
       // 468 pupil-left, 473 pupil-right; 234 left cheek, 454 right cheek
-      const pL = lm[468], pR = lm[473];
-      const cL = lm[234], cR = lm[454];
+      const pL = lm[468],
+        pR = lm[473];
+      const cL = lm[234],
+        cR = lm[454];
 
       // average iris diameter in real world ≈ 11.7 mm. Use iris landmarks 469-472 (left)
-      const iL1 = lm[469], iL2 = lm[471];
+      const iL1 = lm[469],
+        iL2 = lm[471];
       const irisPxX = (iL1.x - iL2.x) * canvas.width;
       const irisPxY = (iL1.y - iL2.y) * canvas.height;
       const irisPx = Math.hypot(irisPxX, irisPxY);
@@ -119,7 +129,7 @@ function MeasurePage() {
       ctx.lineTo(cR.x * canvas.width, cR.y * canvas.height);
       ctx.stroke();
       ctx.fillStyle = "#0c2340";
-      [pL, pR].forEach(p => {
+      [pL, pR].forEach((p) => {
         ctx.beginPath();
         ctx.arc(p.x * canvas.width, p.y * canvas.height, 6, 0, Math.PI * 2);
         ctx.fill();
@@ -127,11 +137,12 @@ function MeasurePage() {
 
       if (samplesRef.current.length >= 45) {
         const avgPd = samplesRef.current.reduce((s, x) => s + x.pd, 0) / samplesRef.current.length;
-        const avgFw = samplesRef.current.reduce((s, x) => s + x.faceW, 0) / samplesRef.current.length;
+        const avgFw =
+          samplesRef.current.reduce((s, x) => s + x.faceW, 0) / samplesRef.current.length;
         setResult({ pd: Math.round(avgPd * 10) / 10, faceW: Math.round(avgFw * 10) / 10 });
         setStatus("done");
         const stream = video.srcObject as MediaStream | null;
-        stream?.getTracks().forEach(t => t.stop());
+        stream?.getTracks().forEach((t) => t.stop());
         return;
       }
     }
@@ -159,14 +170,25 @@ function MeasurePage() {
 
         <div className="mt-10 grid gap-8 md:grid-cols-[1.4fr_1fr]">
           <div className="relative aspect-video overflow-hidden rounded-3xl border border-border bg-card shadow-elegant">
-            <video ref={videoRef} className="absolute inset-0 h-full w-full -scale-x-100 object-cover" muted playsInline />
+            <video
+              ref={videoRef}
+              className="absolute inset-0 h-full w-full -scale-x-100 object-cover"
+              muted
+              playsInline
+            />
             <canvas ref={canvasRef} className="absolute inset-0 h-full w-full -scale-x-100" />
             {status === "idle" && (
               <div className="absolute inset-0 grid place-items-center bg-gradient-soft">
                 <div className="text-center">
                   <Camera className="mx-auto h-10 w-10 text-teal" />
-                  <p className="mt-4 max-w-xs text-sm text-muted-foreground">Click Start to enable your camera. We'll calibrate using your iris size (≈11.7 mm).</p>
-                  <button onClick={start} className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-soft hover:opacity-90">
+                  <p className="mt-4 max-w-xs text-sm text-muted-foreground">
+                    Click Start to enable your camera. We'll calibrate using your iris size (≈11.7
+                    mm).
+                  </p>
+                  <button
+                    onClick={start}
+                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-soft hover:opacity-90"
+                  >
                     <Camera className="h-4 w-4" /> Start camera
                   </button>
                 </div>
@@ -190,7 +212,12 @@ function MeasurePage() {
                 <div>
                   <p className="font-display text-xl">Couldn't access the camera</p>
                   <p className="mt-2 text-sm text-muted-foreground">{error}</p>
-                  <button onClick={start} className="mt-6 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground">Try again</button>
+                  <button
+                    onClick={start}
+                    className="mt-6 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground"
+                  >
+                    Try again
+                  </button>
                 </div>
               </div>
             )}
@@ -218,15 +245,18 @@ function MeasurePage() {
                 >
                   Show frames in my size <ArrowRight className="h-4 w-4" />
                 </button>
-                <button onClick={reset} className="flex w-full items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-semibold hover:border-teal">
+                <button
+                  onClick={reset}
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-semibold hover:border-teal"
+                >
                   <RotateCcw className="h-4 w-4" /> Measure again
                 </button>
               </div>
             )}
 
             <p className="mt-6 text-[11px] leading-relaxed text-muted-foreground">
-              These are approximate measurements for frame sizing. For optical prescriptions,
-              please visit our store for a clinical PD measurement.
+              These are approximate measurements for frame sizing. For optical prescriptions, please
+              visit our store for a clinical PD measurement.
             </p>
           </aside>
         </div>
